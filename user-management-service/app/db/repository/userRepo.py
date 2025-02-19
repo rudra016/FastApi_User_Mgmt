@@ -19,6 +19,6 @@ class UserRepository(BaseRepository):
         user = self.session.query(User).filter(User.email == email).first()
         return user
     
-    def get_exist_by_id(self, user_id : int):
+    def get_user_by_id(self, user_id : int):
         user = self.session.query(User).filter(id == user_id).first()
         return user
