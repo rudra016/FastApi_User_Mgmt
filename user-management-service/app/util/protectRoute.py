@@ -16,15 +16,16 @@ def get_current_user(session: Session = Depends(get_db), authorization : Annotat
     if not authorization.startswith(AUTH_PREFIX):
         raise auth_exception
     payload = AuthHandler.decode_jwt(token=authorization[len(AUTH_PREFIX):])
-
+    print(f"this is payload {payload}")
     if payload and payload["user_id"]:
-        user = UserService(session=session).get_user_by_id(user_id=payload["user_id"])
-        if user:
+        try:
+            user = UserService(session=session).get_user_by_id(payload["user_id"])
             return userOutput(
                 id = user.id,
                 first_name=user.first_name,
                 last_name=user.last_name,
                 email=user.email
-            )
-        raise auth_exception
+                )
+        except Exception as e:
+            raise e
     raise auth_exception

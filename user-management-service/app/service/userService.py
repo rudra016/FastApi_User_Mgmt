@@ -29,6 +29,7 @@ class UserService:
         raise HTTPException(status_code=400, detail="Invalid Credentials")
     
     def get_user_by_id(self, user_id: int):
+        print(user_id)
         user = self.__userRepository.get_user_by_id(user_id=user_id)
         if user:
             return user
