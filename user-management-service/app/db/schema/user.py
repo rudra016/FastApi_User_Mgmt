@@ -13,6 +13,9 @@ class userOutput(BaseModel):
     last_name: str
     email: EmailStr
 
+    class Config:
+        from_attributes = True
+
 class UserInUpdate(BaseModel):
     id: int
     first_name: Union[str, None] = None

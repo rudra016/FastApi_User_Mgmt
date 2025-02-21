@@ -8,3 +8,6 @@ bcrypt
 passlib
 pyJWT
 python-decouple
+pika
+redis
+fastapi-cache2
