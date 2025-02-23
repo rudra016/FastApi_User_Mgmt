@@ -47,7 +47,7 @@ class UserService:
         raise HTTPException(status_code=400, detail="Invalid credentials")
 
     
-    @cache(expire=3600)
+    @cache(expire=5600)
     async def get_user_by_id(self, user_id: int):
         cached_user = await self.redis.get(f"user:{user_id}")
         if cached_user:

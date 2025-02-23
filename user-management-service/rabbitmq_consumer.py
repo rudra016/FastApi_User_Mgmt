@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 load_dotenv()
 RABBITMQ_URL = os.getenv("RABBITMQ_URL")
 DATABASE_CONFIG = {
-    "dbname": "postgres",
+    "dbname": "ecommerce",
     "user": "postgres",
     "password": os.getenv("DB_PASS"),
     "host": "localhost",
