@@ -26,17 +26,26 @@ class UserService:
         
         return user
     
-    async def login(self, login_details : UserInLogin) ->UserWithToken:
+    async def login(self, login_details: UserInLogin) -> UserWithToken:
         if not self.__userRepository.user_exist_by_email(email=login_details.email):
-            raise HTTPException(status_code=400, detail="Please create an Account")
+            raise HTTPException(status_code=400, detail="Please create an account")
+        
         user = self.__userRepository.get_user_by_email(email=login_details.email)
+        
         if HashHelper.verify_password(plain_password=login_details.password, hashed_password=user.password):
             token = AuthHandler.sign_jwt(user_id=user.id)
             if token:
-                await self.redis.set(f"token:{user.id}", token, ex=3600)
+                try:
+                    # Try storing the token in Redis
+                    await self.redis.set(f"token:{user.id}", token, ex=3600)
+                except Exception as e:
+                    print(f"Redis connection failed: {e}") 
                 return UserWithToken(token=token)
+            
             raise HTTPException(status_code=500, detail="Unable to process request")
-        raise HTTPException(status_code=400, detail="Invalid Credentials")
+
+        raise HTTPException(status_code=400, detail="Invalid credentials")
+
     
     @cache(expire=3600)
     async def get_user_by_id(self, user_id: int):

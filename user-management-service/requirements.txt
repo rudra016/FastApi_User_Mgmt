@@ -5,9 +5,11 @@ sqlalchemy
 psycopg2-binary
 python-dotenv
 bcrypt
+email-validator
 passlib
 pyJWT
 python-decouple
 pika
 redis
 fastapi-cache2
+dotenv

@@ -38,10 +38,10 @@ app.add_middleware(
 )
 app.include_router(router=authRouter, tags=["auth"], prefix="/auth")
 
-@app.get("/health")
+@app.get("/health", tags=["health"])
 def health():
     return {"status": "ok"}
 
-@app.get("/protected")
+@app.get("/protected", tags=["auth"])
 def read_protected(user : userOutput = Depends(get_current_user)):
     return {"data": user}

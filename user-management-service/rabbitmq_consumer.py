@@ -4,11 +4,14 @@ import json
 from sqlalchemy.orm import Session
 from app.db.models.user import User
 from app.core.database import SessionLocal
-RABBITMQ_URL = "amqps://mrxifpeh:5ngDkk7VFF_rhmziwX0uW8jOzcyzQRLJ@collie.lmq.cloudamqp.com/mrxifpeh"
+import os
+from dotenv import load_dotenv
+load_dotenv()
+RABBITMQ_URL = os.getenv("RABBITMQ_URL")
 DATABASE_CONFIG = {
     "dbname": "postgres",
     "user": "postgres",
-    "password": "rudra6",
+    "password": os.getenv("DB_PASS"),
     "host": "localhost",
     "port": "5432",
 }
@@ -21,7 +24,7 @@ def validate_user(user_id: int) -> bool:
     
     return user is not None 
 
-def process_message(body):
+def process_message(ch, method, properties, body):
     data = json.loads(body)
     user_id = data.get("user_id")
 

@@ -15,4 +15,8 @@ async def login(request: Request, loginDetails: UserInLogin, session: Session = 
 async def signup(request: Request, signupDetails: UserInCreate, session: Session = Depends(get_db)):
     redis_client = request.app.state.redis
     return await UserService(session=session, redis_client=redis_client).signup(user_details=signupDetails)
-   
+
+@authRouter.post("/logout", status_code=200)
+async def logout(request: Request, user_id: int, session: Session = Depends(get_db)):
+    redis_client = request.app.state.redis
+    return await UserService(session=session, redis_client=redis_client).logout(user_id=user_id)
