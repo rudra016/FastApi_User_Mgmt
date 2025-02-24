@@ -8,13 +8,7 @@ import os
 from dotenv import load_dotenv
 load_dotenv()
 RABBITMQ_URL = os.getenv("RABBITMQ_URL")
-DATABASE_CONFIG = {
-    "dbname": "ecommerce",
-    "user": "postgres",
-    "password": os.getenv("DB_PASS"),
-    "host": "localhost",
-    "port": "5432",
-}
+
 
 def validate_user(user_id: int) -> bool:
     # Checks if the user exists using SQLAlchemy session.
@@ -26,10 +20,12 @@ def validate_user(user_id: int) -> bool:
 
 def process_message(ch, method, properties, body):
     data = json.loads(body)
+    
     user_id = data.get("user_id")
-
+    status = data.get("status")
     is_valid = validate_user(user_id)
     print(f"User Validation for ID {user_id}: {'Valid' if is_valid else 'Invalid'}")
+    print(f"User Order Status :{status}")
 
 
 params = pika.URLParameters(RABBITMQ_URL)
