@@ -1,4 +1,4 @@
-## Fastapi usermanagement service
+## FastApi User Management Service
 ### Overview
 
 This repository contains the User Management microservice, built using FastAPI with asynchronous endpoints, JWT-based authentication, and integrated caching. This service also interacts with RabbitMQ for user validation messages and listens for order updates via WebSocket from another service.
@@ -27,7 +27,7 @@ Ensure you have the following installed:
 
  - Redis
 
- - RabbitMQ
+ - RabbitMQ (or CloudAMQP URL)
 
 #### Clone the Repository
 ``` 
@@ -105,7 +105,7 @@ Swagger UI: http://127.0.0.1/docs#/
 
 ### Load Testing
 
-You can find the load testing results in ![Load Testing Report](/Locust_2025-02-25-13h55_locustfile.py_http___127.0.0.1_8000.html)
+You can find the load testing results in ![Load Testing Report](/docs/Locust_2025-02-25-13h55_locustfile.py_http___127.0.0.1_8000.html)
 
 ### Deployment
 
