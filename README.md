@@ -105,7 +105,7 @@ Swagger UI: http://127.0.0.1/docs#/
 
 ### Load Testing
 
-You can find the load testing results in ![Load Testing Report](/docs/Locust_2025-02-25-13h55_locustfile.py_http___127.0.0.1_8000.html)
+You can find the load testing results in [Load Testing Report](https://locustreport2.tiiny.site/)
 
 ### Deployment
 
