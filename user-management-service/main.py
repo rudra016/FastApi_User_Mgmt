@@ -1,4 +1,5 @@
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI, Depends, Request
+from fastapi.responses import JSONResponse
 from contextlib import asynccontextmanager
 from app.util.init_db import create_tables
 from app.routers.auth import authRouter
@@ -8,7 +9,29 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi_cache import FastAPICache
 from fastapi_cache.backends.redis import RedisBackend
 import redis.asyncio as redis
+import os
+from dotenv import load_dotenv
+import sentry_sdk
+
+load_dotenv()
+
 origins = ["*"]
+
+sentry_sdk.init(
+    dsn=os.getenv("SENTRY_DSN"),
+    # Add data like request headers and IP for users,
+    # see https://docs.sentry.io/platforms/python/data-management/data-collected/ for more info
+    send_default_pii=True,
+    # Set traces_sample_rate to 1.0 to capture 100%
+    # of transactions for tracing.
+    traces_sample_rate=1.0,
+    _experiments={
+        # Set continuous_profiling_auto_start to True
+        # to automatically start the profiler on when
+        # possible.
+        "continuous_profiling_auto_start": True,
+    },
+)
 
 
 @asynccontextmanager
@@ -38,8 +61,18 @@ app.add_middleware(
 )
 app.include_router(router=authRouter, tags=["auth"], prefix="/auth")
 
+@app.exception_handler(Exception)
+async def global_exception_handler(request: Request, exc: Exception):
+    sentry_sdk.capture_exception(exc)  # Send the error to Sentry
+    return JSONResponse(
+        status_code=500,
+        content={"detail": "An internal error occurred. Please try again later."},
+    )
+
+
 @app.get("/health", tags=["health"])
 def health():
+    division_by_zero = 1 / 0
     return {"status": "ok"}
 
 @app.get("/protected", tags=["auth"])

@@ -1,6 +1,6 @@
 import asyncio
 import websockets
-import json
+
 
 WEBSOCKET_URL = "ws://localhost:6000/ws/{user_id}"  
 
