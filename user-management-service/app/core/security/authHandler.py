@@ -4,6 +4,7 @@ import time
 
 JWT_SECRET = config('JWT_SECRET')
 JWT_ALGORITHM = config('JWT_ALGORITHM')
+ACCESS_TOKEN_EXPIRE = 5600  # 1.5 hours
 
 class AuthHandler(object):
 
@@ -11,7 +12,7 @@ class AuthHandler(object):
     def sign_jwt(user_id: int) -> str:
         payload = {
             "user_id": user_id,
-            "expires": time.time() + 5600
+            "expires": time.time() + ACCESS_TOKEN_EXPIRE
         }
         token = jwt.encode(payload, JWT_SECRET, algorithm=JWT_ALGORITHM)
         return token

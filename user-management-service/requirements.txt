@@ -14,3 +14,4 @@ redis
 fastapi-cache2
 dotenv
 sentry-sdk[fastapi]
+locust

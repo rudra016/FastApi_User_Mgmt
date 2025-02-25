@@ -22,7 +22,7 @@ class UserService:
         
         # Convert user object to dictionary and then to JSON before storing in Redis
         user_dict = userOutput.model_validate(user).model_dump() 
-        await self.redis.set(f"user:{user.id}", json.dumps(user_dict), ex=3600)  # Cache for 1 hour
+        await self.redis.set(f"user:{user.id}", json.dumps(user_dict), ex=5600)  
         
         return user
     
@@ -37,7 +37,7 @@ class UserService:
             if token:
                 try:
                     # Try storing the token in Redis
-                    await self.redis.set(f"token:{user.id}", token, ex=3600)
+                    await self.redis.set(f"token:{user.id}", token, ex=5600)
                 except Exception as e:
                     print(f"Redis connection failed: {e}") 
                 return UserWithToken(token=token)

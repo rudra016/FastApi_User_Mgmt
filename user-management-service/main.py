@@ -72,7 +72,6 @@ async def global_exception_handler(request: Request, exc: Exception):
 
 @app.get("/health", tags=["health"])
 def health():
-    division_by_zero = 1 / 0
     return {"status": "ok"}
 
 @app.get("/protected", tags=["auth"])
