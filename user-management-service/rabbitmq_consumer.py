@@ -20,9 +20,8 @@ def validate_user(user_id: int) -> bool:
 
 def process_message(ch, method, properties, body):
     data = json.loads(body)
-    
     user_id = data.get("user_id")
-    status = data.get("status")
+    status = data.get("order").get("status")
     is_valid = validate_user(user_id)
     print(f"User Validation for ID {user_id}: {'Valid' if is_valid else 'Invalid'}")
     print(f"User Order Status :{status}")
