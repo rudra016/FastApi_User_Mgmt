@@ -76,14 +76,14 @@ uvicorn main:app --reload
 
 ### Start RabbitMQ
 
-Ensure RabbitMQ is running (in root folder of repo):
+Ensure RabbitMQ is running:
 ```
 python rabbitmq_consumer.py
 ```
 
 ### Start Websocket Listener
 
-Ensure RabbitMQ is running (in root folder of repo):
+Ensure RabbitMQ is running:
 ```
 python websocket_client.py
 ```
@@ -106,6 +106,13 @@ Swagger UI: http://127.0.0.1/docs#/
 ### Load Testing
 
 You can find the load testing results in [Load Testing Report](https://locustreport2.tiiny.site/)
+
+### Running Integration Tests
+
+In your root directory of your project:
+```
+pytest tests/
+```
 
 ### Deployment
 
